@@ -24,6 +24,8 @@ var commentForKind = map[string]string{
 }
 
 var ignoreKinds = map[string]bool{
+	".DS_Store":                true,
+	"exe":                      true,
 	"db":                       true,
 	"png":                      true,
 	"jpeg":                     true,
