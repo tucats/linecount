@@ -50,12 +50,12 @@ func count(file string) error {
 		return nil
 	}
 
-	if base == "" {
-		kind = "text"
-	}
-
 	if ignoreKinds[kind] {
 		return nil
+	}
+
+	if base == "" {
+		kind = "text"
 	}
 
 	if verbose {
