@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"sort"
 	"strings"
+	"time"
 )
 
 var files = 0
@@ -138,6 +139,7 @@ func scan(paths []string) error {
 }
 
 func main() {
+	start := time.Now()
 	pathList := make([]string, 0)
 
 	for index := 1; index < len(os.Args); index++ {
@@ -160,6 +162,10 @@ func main() {
 	if err != nil {
 		fmt.Printf("Error: %v", err)
 	} else {
+		if verbose {
+			fmt.Printf("Scanning completed in %s\n", time.Since(start).String())
+		}
+
 		extensions := make([]string, 0)
 		for k := range lines {
 			extensions = append(extensions, k)
