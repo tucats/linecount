@@ -41,6 +41,7 @@ var ignoreKinds = map[string]bool{
 	"key":                      true,
 	"openapi-generator-ignore": true,
 	"gitignore":                true,
+	"zip":                      true,
 }
 
 var ignorePaths = map[string]bool{
