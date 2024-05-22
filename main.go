@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"sort"
 	"strings"
+	"time"
 )
 
 var files = 0
@@ -25,6 +26,8 @@ var commentForKind = map[string]string{
 }
 
 var ignoreKinds = map[string]bool{
+	"DS_Store":                 true,
+	"exe":                      true,
 	"db":                       true,
 	"png":                      true,
 	"jpeg":                     true,
@@ -58,12 +61,12 @@ func count(file string) error {
 		return nil
 	}
 
-	if base == "" {
-		kind = "text"
-	}
-
 	if ignoreKinds[kind] {
 		return nil
+	}
+
+	if base == "" {
+		kind = "text"
 	}
 
 	if verbose {
@@ -152,6 +155,7 @@ func scan(paths []string) error {
 }
 
 func main() {
+	start := time.Now()
 	pathList := make([]string, 0)
 
 	for index := 1; index < len(os.Args); index++ {
@@ -176,6 +180,10 @@ func main() {
 	if err != nil {
 		fmt.Printf("Error: %v", err)
 	} else {
+		if verbose {
+			fmt.Printf("Scanning completed in %s\n", time.Since(start).String())
+		}
+
 		extensions := make([]string, 0)
 		for k := range lines {
 			extensions = append(extensions, k)
