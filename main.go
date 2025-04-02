@@ -12,7 +12,8 @@ import (
 var files = 0
 var commentCount = 0
 
-var lines = map[string]int{}
+var LineCount = map[string]int{}
+var FileCount = map[string]int{}
 
 var verbose = false
 var ignoreComments = true
@@ -73,6 +74,8 @@ func count(file string) error {
 		fmt.Printf("Scanning %s\n", file)
 	}
 
+	FileCount[kind] = FileCount[kind] + 1
+
 	b, err := os.ReadFile(file)
 	if err != nil {
 		return err
@@ -109,7 +112,7 @@ func count(file string) error {
 		lineCount++
 	}
 
-	lines[kind] = lines[kind] + lineCount
+	LineCount[kind] = LineCount[kind] + lineCount
 
 	return nil
 }
@@ -185,7 +188,7 @@ func main() {
 		}
 
 		extensions := make([]string, 0)
-		for k := range lines {
+		for k := range LineCount {
 			extensions = append(extensions, k)
 		}
 
@@ -195,8 +198,10 @@ func main() {
 			fmt.Println()
 		}
 
+		fmt.Printf("%-10s   %7s   %s\n", "Extension", "Lines", "Files")
+
 		for _, k := range extensions {
-			fmt.Printf("%-10s   %-7d\n", k, lines[k])
+			fmt.Printf("%-10s   %7d   %5d\n", k, LineCount[k], FileCount[k])
 		}
 
 		if verbose && ignoreComments && commentCount > 0 {
